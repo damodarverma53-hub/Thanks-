@@ -13,6 +13,7 @@
     --muted:#6b6b6b;
   }
   *{box-sizing:border-box}
+  html,body{height:100%}
   body{
     margin:0;
     min-height:100vh;
@@ -22,7 +23,10 @@
     justify-content:center;
     background:linear-gradient(180deg,#fff7f0 0%, #ffeef3 100%);
     padding:24px;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
   }
+
   .wrap{
     width:100%;
     max-width:920px;
@@ -32,6 +36,8 @@
     gap:20px;
     align-items:start;
   }
+
+  /* Slide card */
   .slider{
     position:relative;
     border-radius:20px;
@@ -41,7 +47,7 @@
   }
   .slides{
     width:100%;
-    height:420px;
+    height:460px;
     display:flex;
     transition:transform .6s cubic-bezier(.22,.9,.2,1);
   }
@@ -62,12 +68,34 @@
     font-size:32px;
     line-height:1.05;
     color:#222;
+    opacity:0;
+    transform:translateY(12px);
+    animation:fadeUp 700ms ease forwards;
   }
   .slide p{
     margin:0;
     color:var(--muted);
     font-size:16px;
+    opacity:0;
+    transform:translateY(8px);
+    animation:fadeUp 700ms ease forwards;
+    animation-delay:160ms;
   }
+
+  .slide[data-active="0"] h1 { animation-delay: 120ms; }
+  .slide[data-active="0"] p  { animation-delay: 280ms; }
+  .slide[data-active="1"] h1 { animation-delay: 120ms; }
+  .slide[data-active="1"] p  { animation-delay: 280ms; }
+  .slide[data-active="2"] h1 { animation-delay: 120ms; }
+  .slide[data-active="2"] p  { animation-delay: 280ms; }
+  .slide[data-active="3"] h1 { animation-delay: 120ms; }
+  .slide[data-active="3"] p  { animation-delay: 280ms; }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(12px) scale(0.997); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
   .controls{
     position:absolute;
     bottom:18px;
@@ -104,6 +132,8 @@
     border:0;
     cursor:pointer;
   }
+
+  /* QR column */
   .qrcard{
     background:linear-gradient(180deg,#fff 0%, #fffaf8 100%);
     border-radius:16px;
@@ -111,19 +141,42 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     display:flex;
     flex-direction:column;
-    gap:14px;
+    gap:12px;
     align-items:center;
   }
   .qrcard h3{margin:0;font-size:18px;color:#111}
   #qrcode{width:220px;height:220px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;border-radius:12px}
   .muted{color:var(--muted);font-size:14px;text-align:center}
-  .download{display:flex;gap:8px}
+  .download{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
   .small{font-size:13px;padding:6px 10px;border-radius:10px}
+
+  /* music control */
+  .music {
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:6px;
+  }
+  .play-btn{
+    border:0;
+    background:#fff;
+    padding:8px 12px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    cursor:pointer;
+    font-weight:700;
+  }
+  .play-btn.playing { background:var(--accent); color:#fff; }
+
+  .muted-small { font-size:12px; color:var(--muted); text-align:center; }
+
+  /* responsive */
   @media (max-width:880px){
     .wrap{grid-template-columns:1fr; padding-bottom:20px}
     #qrcode{width:190px;height:190px}
     .slides{height:360px}
   }
+
 </style>
 </head>
 <body>
@@ -131,29 +184,30 @@
     <div class="slider" id="slider">
       <div class="slides" id="slides">
         <!-- Slide 1 -->
-        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #fffaf6 100%);">
+        <section class="slide" data-active="0" style="background:linear-gradient(135deg,#fff 0%, #fffaf6 100%);">
           <h1>Hey Mahi 💫</h1>
           <p>Some people just walk into your life and make it feel like home. You’re one of them.</p>
         </section>
 
         <!-- Slide 2 -->
-        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #fff6fb 100%);">
+        <section class="slide" data-active="1" style="background:linear-gradient(135deg,#fff 0%, #fff6fb 100%);">
           <h1>You make ordinary moments special 🌸</h1>
           <p>Your laughter, your little talks — they make my world lighter and my heart calmer.</p>
         </section>
 
         <!-- Slide 3 -->
-        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f7fff9 100%);">
+        <section class="slide" data-active="2" style="background:linear-gradient(135deg,#fff 0%, #f7fff9 100%);">
           <h1>Every chat, every smile — I remember them 💭</h1>
           <p>Thank you for being real, for listening, and for just… being you. You mean more than you think.</p>
         </section>
 
         <!-- Slide 4 -->
-        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f9f7ff 100%);">
+        <section class="slide" data-active="3" style="background:linear-gradient(135deg,#fff 0%, #f9f7ff 100%);">
           <h1>You’re my favorite chapter, Mahi 💖</h1>
           <p>No matter where life goes, I’m grateful that our paths met. You’ll always be special.</p>
         </section>
       </div>
+
       <div class="controls" id="dots"></div>
       <div class="nav">
         <button id="prev" aria-label="Previous">&larr;</button>
@@ -165,15 +219,32 @@
       <h3>Scan to open 💌</h3>
       <div id="qrcode"></div>
       <div class="muted">Scan this to see your surprise — made just for you 💕</div>
+
+      <div class="music">
+        <button id="playBtn" class="play-btn">Play music</button>
+        <div class="muted-small">Tap to start the romantic instrumental (works better on phone)</div>
+      </div>
+
       <div class="download">
         <button class="btn" id="downloadQR">Download QR</button>
         <button class="small" id="openLink">Open Link</button>
       </div>
+      <div class="muted">Tip: Upload <code>bgm.mp3</code> to this repository if you want the music to play from this page.</div>
     </aside>
   </div>
 
+<!-- audio element: by default looks for bgm.mp3 in same folder as index.html -->
+<!-- Option A (recommended): upload your own bgm.mp3 into the repo root (Add file → Upload) -->
+<!-- Option B (alternate): uncomment the src line below and provide a remote mp3 URL (less reliable) -->
+<audio id="bgm" loop preload="auto">
+  <source src="bgm.mp3" type="audio/mpeg">
+  <!-- <source src="https://example.com/your-romantic-track.mp3" type="audio/mpeg"> -->
+  Your browser does not support the audio element.
+</audio>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
+  // Slider logic
   const slidesEl = document.getElementById('slides');
   const slides = document.querySelectorAll('.slide');
   const dotsEl = document.getElementById('dots');
@@ -184,37 +255,105 @@
     slides.forEach((_, i) => {
       const d = document.createElement('div');
       d.className = 'dot' + (i === idx ? ' active' : '');
-      d.addEventListener('click', () => { idx=i; update(); });
+      d.title = 'Slide ' + (i+1);
+      d.addEventListener('click', () => { goTo(i); });
       dotsEl.appendChild(d);
     });
   }
-  function update(){
+  function update() {
     slidesEl.style.transform = `translateX(-${idx * 100}%)`;
+    // set data-active so animations re-run with delay
+    slides.forEach((s, i) => s.setAttribute('data-active', i === idx ? i : i));
     renderDots();
   }
-  document.getElementById('prev').onclick = () => { idx = (idx-1+slides.length)%slides.length; update(); };
-  document.getElementById('next').onclick = () => { idx = (idx+1)%slides.length; update(); };
-  let auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000);
-  document.getElementById('slider').addEventListener('mouseenter',()=>clearInterval(auto));
-  document.getElementById('slider').addEventListener('mouseleave',()=>auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000));
+  function prev(){ idx = (idx-1 + slides.length) % slides.length; update(); }
+  function next(){ idx = (idx+1) % slides.length; update(); }
+  function goTo(i){ idx = i; update(); }
+
+  document.getElementById('prev').addEventListener('click', prev);
+  document.getElementById('next').addEventListener('click', next);
+
+  // auto-advance every 5s
+  let auto = setInterval(next, 5000);
+  const slider = document.getElementById('slider');
+  slider.addEventListener('mouseenter', () => clearInterval(auto));
+  slider.addEventListener('mouseleave', () => auto = setInterval(next, 5000));
+
   update();
 
-  // QR setup — your live GitHub URL
-  const qrContainer=document.getElementById('qrcode');
-  qrContainer.innerHTML='';
-  const link="https://damodarverma53-hub.github.io/thankyou/";
-  const qrcode=new QRCode(qrContainer,{text:link,width:200,height:200,colorDark:"#000",colorLight:"#fff",correctLevel:QRCode.CorrectLevel.H});
+  // QR code
+  const qrContainer = document.getElementById('qrcode');
+  qrContainer.innerHTML = '';
+  const link = "https://damodarverma53-hub.github.io/thankyou/";
+  const qrcode = new QRCode(qrContainer, {
+    text: link,
+    width: 200,
+    height: 200,
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+  });
 
-  document.getElementById('downloadQR').addEventListener('click',()=>{
-    const img=qrContainer.querySelector('img')||qrContainer.querySelector('canvas');
+  document.getElementById('openLink').addEventListener('click', () => {
+    window.open(link, '_blank');
+  });
+  document.getElementById('downloadQR').addEventListener('click', () => {
+    const img = qrContainer.querySelector('img');
+    const canvas = qrContainer.querySelector('canvas');
     if(img){
-      const a=document.createElement('a');
-      a.href=img.src||img.toDataURL('image/png');
-      a.download='mahi-qr.png';
+      const a = document.createElement('a');
+      a.href = img.src;
+      a.download = 'mahi-qr.png';
       a.click();
+    } else if(canvas){
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'mahi-qr.png';
+      a.click();
+    } else {
+      alert('Could not find the QR to download.');
     }
   });
-  document.getElementById('openLink').onclick=()=>window.open(link,'_blank');
+
+  // Music controls
+  const bgm = document.getElementById('bgm');
+  const playBtn = document.getElementById('playBtn');
+
+  // Toggle play/pause and update button style and label
+  function setPlayingState(isPlaying){
+    if(isPlaying){
+      playBtn.textContent = 'Pause music';
+      playBtn.classList.add('playing');
+    } else {
+      playBtn.textContent = 'Play music';
+      playBtn.classList.remove('playing');
+    }
+  }
+
+  // Try to resume / play if possible when pressing the button.
+  playBtn.addEventListener('click', async () => {
+    try {
+      if(bgm.paused){
+        await bgm.play(); // may require user gesture (we're inside click)
+        setPlayingState(true);
+      } else {
+        bgm.pause();
+        setPlayingState(false);
+      }
+    } catch (err) {
+      // play failed (maybe missing file), alert gently
+      alert('Could not play music. Make sure you uploaded bgm.mp3 to the repository, or test by adding a public mp3 URL in the audio tag.');
+      console.error(err);
+    }
+  });
+
+  // Update button when audio ends/plays
+  bgm.addEventListener('play', () => setPlayingState(true));
+  bgm.addEventListener('pause', () => setPlayingState(false));
+
+  // small UX improvement: when user taps any slide's area, advance to next
+  slidesEl.addEventListener('click', () => { next(); });
+
 </script>
 </body>
 </html>
