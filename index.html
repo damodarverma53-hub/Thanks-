@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>For You, Mahi 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fff7f0;
+    --card:#ffffff;
+    --accent:#ff6b81;
+    --muted:#6b6b6b;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(180deg,#fff7f0 0%, #ffeef3 100%);
+    padding:24px;
+  }
+  .wrap{
+    width:100%;
+    max-width:920px;
+    background:transparent;
+    display:grid;
+    grid-template-columns: 1fr 300px;
+    gap:20px;
+    align-items:start;
+  }
+  .slider{
+    position:relative;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    background:var(--card);
+  }
+  .slides{
+    width:100%;
+    height:420px;
+    display:flex;
+    transition:transform .6s cubic-bezier(.22,.9,.2,1);
+  }
+  .slide{
+    width:100%;
+    flex:0 0 100%;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    justify-content:center;
+    align-items:flex-start;
+    background-size:cover;
+    background-position:center;
+  }
+  .slide h1{
+    margin:0;
+    font-size:32px;
+    line-height:1.05;
+    color:#222;
+  }
+  .slide p{
+    margin:0;
+    color:var(--muted);
+    font-size:16px;
+  }
+  .controls{
+    position:absolute;
+    bottom:18px;
+    left:18px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(0,0,0,0.12);
+  }
+  .dot.active{background:var(--accent);transform:scale(1.15)}
+  .nav{
+    position:absolute;
+    right:18px;
+    bottom:18px;
+    display:flex;
+    gap:8px;
+  }
+  .btn{
+    background:var(--accent);
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    border:0;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .nav button{
+    background:rgba(0,0,0,0.06);
+    border-radius:10px;
+    padding:8px;
+    border:0;
+    cursor:pointer;
+  }
+  .qrcard{
+    background:linear-gradient(180deg,#fff 0%, #fffaf8 100%);
+    border-radius:16px;
+    padding:18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    align-items:center;
+  }
+  .qrcard h3{margin:0;font-size:18px;color:#111}
+  #qrcode{width:220px;height:220px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;border-radius:12px}
+  .muted{color:var(--muted);font-size:14px;text-align:center}
+  .download{display:flex;gap:8px}
+  .small{font-size:13px;padding:6px 10px;border-radius:10px}
+  @media (max-width:880px){
+    .wrap{grid-template-columns:1fr; padding-bottom:20px}
+    #qrcode{width:190px;height:190px}
+    .slides{height:360px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="slider" id="slider">
+      <div class="slides" id="slides">
+        <!-- Slide 1 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #fffaf6 100%);">
+          <h1>Hey Mahi 💫</h1>
+          <p>Some people just walk into your life and make it feel like home. You’re one of them.</p>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #fff6fb 100%);">
+          <h1>You make ordinary moments special 🌸</h1>
+          <p>Your laughter, your little talks — they make my world lighter and my heart calmer.</p>
+        </section>
+
+        <!-- Slide 3 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f7fff9 100%);">
+          <h1>Every chat, every smile — I remember them 💭</h1>
+          <p>Thank you for being real, for listening, and for just… being you. You mean more than you think.</p>
+        </section>
+
+        <!-- Slide 4 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f9f7ff 100%);">
+          <h1>You’re my favorite chapter, Mahi 💖</h1>
+          <p>No matter where life goes, I’m grateful that our paths met. You’ll always be special.</p>
+        </section>
+      </div>
+      <div class="controls" id="dots"></div>
+      <div class="nav">
+        <button id="prev" aria-label="Previous">&larr;</button>
+        <button id="next" aria-label="Next">&rarr;</button>
+      </div>
+    </div>
+
+    <aside class="qrcard">
+      <h3>Scan to open 💌</h3>
+      <div id="qrcode"></div>
+      <div class="muted">Scan this to see your surprise — made just for you 💕</div>
+      <div class="download">
+        <button class="btn" id="downloadQR">Download QR</button>
+        <button class="small" id="openLink">Open Link</button>
+      </div>
+    </aside>
+  </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  const slidesEl = document.getElementById('slides');
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  let idx = 0;
+
+  function renderDots(){
+    dotsEl.innerHTML = '';
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === idx ? ' active' : '');
+      d.addEventListener('click', () => { idx=i; update(); });
+      dotsEl.appendChild(d);
+    });
+  }
+  function update(){
+    slidesEl.style.transform = `translateX(-${idx * 100}%)`;
+    renderDots();
+  }
+  document.getElementById('prev').onclick = () => { idx = (idx-1+slides.length)%slides.length; update(); };
+  document.getElementById('next').onclick = () => { idx = (idx+1)%slides.length; update(); };
+  let auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000);
+  document.getElementById('slider').addEventListener('mouseenter',()=>clearInterval(auto));
+  document.getElementById('slider').addEventListener('mouseleave',()=>auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000));
+  update();
+
+  // QR setup — your live GitHub URL
+  const qrContainer=document.getElementById('qrcode');
+  qrContainer.innerHTML='';
+  const link="https://damodarverma53-hub.github.io/thankyou/";
+  const qrcode=new QRCode(qrContainer,{text:link,width:200,height:200,colorDark:"#000",colorLight:"#fff",correctLevel:QRCode.CorrectLevel.H});
+
+  document.getElementById('downloadQR').addEventListener('click',()=>{
+    const img=qrContainer.querySelector('img')||qrContainer.querySelector('canvas');
+    if(img){
+      const a=document.createElement('a');
+      a.href=img.src||img.toDataURL('image/png');
+      a.download='mahi-qr.png';
+      a.click();
+    }
+  });
+  document.getElementById('openLink').onclick=()=>window.open(link,'_blank');
+</script>
+</body>
+</html>
