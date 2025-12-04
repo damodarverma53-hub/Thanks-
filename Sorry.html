@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>I'm Sorry, Mahi 💔</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fef5f7;
+    --card:#ffffff;
+    --accent:#ff6b81;
+    --muted:#6b6b6b;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0;
+    min-height:100vh;
+    font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(180deg,#fef5f7 0%, #fbefff 100%);
+    padding:24px;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    width:100%;
+    max-width:920px;
+    display:grid;
+    grid-template-columns: 1fr 300px;
+    gap:20px;
+    align-items:start;
+  }
+
+  .slider{
+    position:relative;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    background:var(--card);
+  }
+  .slides{
+    width:100%;
+    height:460px;
+    display:flex;
+    transition:transform .6s cubic-bezier(.22,.9,.2,1);
+  }
+  .slide{
+    width:100%;
+    flex:0 0 100%;
+    padding:40px;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    justify-content:center;
+    align-items:flex-start;
+    background-size:cover;
+    background-position:center;
+  }
+  .slide h1{
+    margin:0;
+    font-size:30px;
+    line-height:1.1;
+    color:#222;
+    opacity:0;
+    transform:translateY(12px);
+    animation:fadeUp 700ms ease forwards;
+  }
+  .slide p{
+    margin:0;
+    color:var(--muted);
+    font-size:16px;
+    opacity:0;
+    transform:translateY(8px);
+    animation:fadeUp 700ms ease forwards;
+    animation-delay:160ms;
+  }
+
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(12px) scale(0.995); }
+    to   { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .controls{
+    position:absolute;
+    bottom:18px;
+    left:18px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+  }
+  .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:rgba(0,0,0,0.12);
+  }
+  .dot.active{background:var(--accent);transform:scale(1.15)}
+  .nav{
+    position:absolute;
+    right:18px;
+    bottom:18px;
+    display:flex;
+    gap:8px;
+  }
+  .btn{
+    background:var(--accent);
+    color:white;
+    padding:10px 14px;
+    border-radius:12px;
+    border:0;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .nav button{
+    background:rgba(0,0,0,0.06);
+    border-radius:10px;
+    padding:8px;
+    border:0;
+    cursor:pointer;
+  }
+
+  /* QR + music column */
+  .qrcard{
+    background:linear-gradient(180deg,#fff 0%, #fffaf8 100%);
+    border-radius:16px;
+    padding:18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    align-items:center;
+  }
+  .qrcard h3{margin:0;font-size:18px;color:#111}
+  #qrcode{width:220px;height:220px;display:flex;align-items:center;justify-content:center;background:white;padding:12px;border-radius:12px}
+  .muted{color:var(--muted);font-size:14px;text-align:center}
+  .download{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+  .small{font-size:13px;padding:6px 10px;border-radius:10px}
+  .music{
+    display:flex;
+    gap:8px;
+    align-items:center;
+    margin-top:4px;
+  }
+  .play-btn{
+    border:0;
+    background:#fff;
+    padding:8px 12px;
+    border-radius:10px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.06);
+    cursor:pointer;
+    font-weight:700;
+  }
+  .play-btn.playing{background:var(--accent);color:#fff;}
+  .muted-small{font-size:12px;color:var(--muted);text-align:center;}
+
+  @media (max-width:880px){
+    .wrap{grid-template-columns:1fr;}
+    #qrcode{width:190px;height:190px}
+    .slides{height:360px}
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="slider" id="slider">
+      <div class="slides" id="slides">
+        <!-- Slide 1 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #fff4f4 100%);">
+          <h1>Mahi… I’m really sorry 💔</h1>
+          <p>I never wanted to hurt you. The last thing I’d ever want is to see you upset because of me.</p>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #ffeefe 100%);">
+          <h1>You mean more to me than you know 💖</h1>
+          <p>You’re not “just a friend” to me. You’re someone whose presence makes my days softer and my life better.</p>
+        </section>
+
+        <!-- Slide 3 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f5fff9 100%);">
+          <h1>I may mess up, but I truly care 🥺</h1>
+          <p>I’m not perfect and I say or do wrong things… but my feelings for you are real, and so is this apology.</p>
+        </section>
+
+        <!-- Slide 4 -->
+        <section class="slide" style="background:linear-gradient(135deg,#fff 0%, #f9f7ff 100%);">
+          <h1>Can we fix this, Mahi? 💫</h1>
+          <p>If you can forgive me, I promise to protect your smile a little more and your heart a lot more.</p>
+        </section>
+      </div>
+
+      <div class="controls" id="dots"></div>
+      <div class="nav">
+        <button id="prev" aria-label="Previous">&larr;</button>
+        <button id="next" aria-label="Next">&rarr;</button>
+      </div>
+    </div>
+
+    <aside class="qrcard">
+      <h3>Scan to open my apology 💌</h3>
+      <div id="qrcode"></div>
+      <div class="muted">This is me saying I’m sorry, in the most “us” way I could think of.</div>
+
+      <div class="music">
+        <button id="playBtn" class="play-btn">Play music</button>
+        <div class="muted-small">Same soft piano as before — tap to play.</div>
+      </div>
+
+      <div class="download">
+        <button class="btn" id="downloadQR">Download QR</button>
+        <button class="small" id="openLink">Open Link</button>
+      </div>
+      <div class="muted">You can send this QR or link when you feel ready to say “I’m sorry”.</div>
+    </aside>
+  </div>
+
+<!-- Uses bgm.mp3 from the same repo (same as your thank-you page) -->
+<audio id="bgm" loop preload="auto">
+  <source src="bgm.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+  // Slider logic
+  const slidesEl = document.getElementById('slides');
+  const slides = document.querySelectorAll('.slide');
+  const dotsEl = document.getElementById('dots');
+  let idx = 0;
+
+  function renderDots(){
+    dotsEl.innerHTML = '';
+    slides.forEach((_, i) => {
+      const d = document.createElement('div');
+      d.className = 'dot' + (i === idx ? ' active' : '');
+      d.title = 'Slide ' + (i+1);
+      d.addEventListener('click', () => { idx=i; update(); });
+      dotsEl.appendChild(d);
+    });
+  }
+  function update(){
+    slidesEl.style.transform = `translateX(-${idx * 100}%)`;
+    renderDots();
+  }
+  document.getElementById('prev').onclick = () => { idx = (idx-1+slides.length)%slides.length; update(); };
+  document.getElementById('next').onclick = () => { idx = (idx+1)%slides.length; update(); };
+
+  let auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000);
+  document.getElementById('slider').addEventListener('mouseenter',()=>clearInterval(auto));
+  document.getElementById('slider').addEventListener('mouseleave',()=>auto=setInterval(()=>{idx=(idx+1)%slides.length;update();},5000));
+
+  update();
+
+  // QR code – always uses the current page URL
+  const qrContainer=document.getElementById('qrcode');
+  qrContainer.innerHTML='';
+  const link=window.location.href.split('#')[0]; // current URL
+  const qrcode=new QRCode(qrContainer,{
+    text:link,
+    width:200,
+    height:200,
+    colorDark:"#000000",
+    colorLight:"#ffffff",
+    correctLevel:QRCode.CorrectLevel.H
+  });
+
+  document.getElementById('openLink').onclick=()=>window.open(link,'_blank');
+  document.getElementById('downloadQR').addEventListener('click',()=>{
+    const img=qrContainer.querySelector('img');
+    const canvas=qrContainer.querySelector('canvas');
+    if(img){
+      const a=document.createElement('a');
+      a.href=img.src;
+      a.download='sorry-mahi-qr.png';
+      a.click();
+    } else if(canvas){
+      const a=document.createElement('a');
+      a.href=canvas.toDataURL('image/png');
+      a.download='sorry-mahi-qr.png';
+      a.click();
+    } else{
+      alert('Could not find the QR to download.');
+    }
+  });
+
+  // Music controls
+  const bgm=document.getElementById('bgm');
+  const playBtn=document.getElementById('playBtn');
+
+  function setPlayingState(isPlaying){
+    if(isPlaying){
+      playBtn.textContent='Pause music';
+      playBtn.classList.add('playing');
+    } else{
+      playBtn.textContent='Play music';
+      playBtn.classList.remove('playing');
+    }
+  }
+
+  playBtn.addEventListener('click',async()=>{
+    try{
+      if(bgm.paused){
+        await bgm.play();
+        setPlayingState(true);
+      }else{
+        bgm.pause();
+        setPlayingState(false);
+      }
+    }catch(err){
+      alert('Could not play music. Make sure bgm.mp3 exists in this repository.');
+      console.error(err);
+    }
+  });
+
+  bgm.addEventListener('play',()=>setPlayingState(true));
+  bgm.addEventListener('pause',()=>setPlayingState(false));
+
+  // tap anywhere on slides to go next (mobile friendly)
+  slidesEl.addEventListener('click',()=>{idx=(idx+1)%slides.length;update();});
+</script>
+</body>
+</html>
